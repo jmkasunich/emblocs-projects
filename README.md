@@ -9,3 +9,6 @@ so I am going to remove the build system from the original repo.
 
 This repo will include emblocs as a sub-module.
 
+At this time, most of the sample projects are empty.  They represent goals, not working code.
+
+

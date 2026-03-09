@@ -1,0 +1,3 @@
+[submodule "submodules/emblocs"]
+	path = submodules/emblocs
+	url = https://github.com/jmkasunich/emblocs.git

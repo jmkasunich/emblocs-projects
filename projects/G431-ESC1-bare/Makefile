@@ -40,6 +40,7 @@ CC				:= $(BINUTILS_ROOT)/bin/$(TOOLCHAIN)-gcc
 AS				:= $(BINUTILS_ROOT)/bin/$(TOOLCHAIN)-as
 OBJCOPY			:= $(BINUTILS_ROOT)/bin/$(TOOLCHAIN)-objcopy
 SIZE			:= $(BINUTILS_ROOT)/bin/$(TOOLCHAIN)-size
+GDB				:= $(BINUTILS_ROOT)/bin/$(TOOLCHAIN)-gdb
 C_STANDARD		:= -std=gnu11
 
 # ---------------------------------------------------------------------

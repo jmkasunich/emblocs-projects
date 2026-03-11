@@ -23,7 +23,7 @@ MAKEFLAGS += --no-builtin-variables
 
 BINUTILS_ROOT := ${ARM_GNU_TOOLCHAIN_PATH}
 OPENOCD_ROOT := ${OPENOCD_PATH}
-PACKAGE_ROOT := ${STM32_PACKAGE_PATH}
+PACKAGE_ROOT := ${STM32_G4_PATH}
 
 # append some subdirs to the source search path
 EMBLOCS_DIR := ../../submodules/emblocs/src/
@@ -87,7 +87,7 @@ OBJECTS := $(addprefix $(OBJECT_DIR)/,$(OBJECTS))
 
 TARGET := main.hex
 
-MCU_PKG := $(PACKAGE_ROOT)/STM32Cube_FW_G4_V1.6.0
+MCU_PKG := $(PACKAGE_ROOT)
 
 INC_DIRS 				:= $(SRC_PATH:%/=%)
 INC_DIRS				+= $(MCU_PKG)/Drivers/CMSIS/Include

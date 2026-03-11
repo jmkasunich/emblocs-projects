@@ -16,7 +16,7 @@
             "includePath": [
                 "${workspaceFolder}/projects/G431-ESC1-bare/**",
                 "${workspaceFolder}/submodules/emblocs/src/**",
-                "${env:STM32_Package_Path}/STM32Cube_FW_G4_V1.6.0/**"
+                "${env:STM32G4_PATH}/**"
             ],
             "defines": [
                 "_DEBUG"

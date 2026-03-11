@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "G431-ESC1-bare",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/projects/G431-ESC1-bare",
+            "executable": "${workspaceRoot}/projects/G431-ESC1-bare/build/main.elf",
+            "servertype": "openocd",
+            "configFiles": ["openocd.cfg"],
+            "armToolchainPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin",
+            "gdbPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin/arm-none-eabi-gdb.exe",
+            "interface": "swd",
+            "serverpath": "${env:OPENOCD_PATH}/bin/openocd.exe",
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        },
+
+    ]
+}

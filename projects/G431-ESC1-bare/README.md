@@ -11,5 +11,5 @@ Data from STMicro includes:
 
 STMicro does not publish a schematic for the board.  Digikey has some links on their [product page](https://www.digikey.at/reference-designs/en/motor-control/motor-control/2840) for the board, but the schematic link to STMicro is dead.  Fortunately the same Digikey page has PNG files for the individual schematic pages.  It's not clear what version of the board the schematics are for; it looks like STMicro has made three versions.
 
-This project is for a bare-metal implemenetation.
+This project is for a bare-metal implementation.
 

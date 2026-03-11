@@ -12,13 +12,18 @@ MAKEFLAGS += --no-builtin-variables
 # Avoid excess printing
 .SILENT :
 
-# local.mk contains host specific paths, etc
-# it should set the following variables:
-# BINUTILS_ROOT - path to toolchain
-# OPENOCD_ROOT - path to OpenOCD
-# PACKAGE_ROOT - path to chip-specific packages
+# Linux tends to put things in predicable locations,
+# Windows, not so much.  Use environment variables
+# to find the compiler and other tools.
+# The following variables should be set:
+#
+# ARM_GNU_TOOLCHAIN_PATH
+# OPENOCD_PATH
+# STM32_PACKAGE_PATH
 
-include ../local.mk
+BINUTILS_ROOT := ${ARM_GNU_TOOLCHAIN_PATH}
+OPENOCD_ROOT := ${OPENOCD_PATH}
+PACKAGE_ROOT := ${STM32_PACKAGE_PATH}
 
 # append some subdirs to the source search path
 EMBLOCS_DIR := ../../submodules/emblocs/src/

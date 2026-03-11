@@ -7,6 +7,3 @@ build/
 # temporary directories
 temp/
 
-# editor settings
-.vscode
-

@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ]
+        },
+        {
+            "name": "G431-ESC1-bare",
+            "includePath": [
+                "${workspaceFolder}/projects/G431-ESC1-bare/**",
+                "${workspaceFolder}/submodules/emblocs/src/**",
+                "${env:STM32_Package_Path}/STM32Cube_FW_G4_V1.6.0/**"
+            ],
+            "defines": [
+                "_DEBUG"
+            ],
+            "compilerPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc.exe"
+        }
+    ],
+    "version": 4
+}

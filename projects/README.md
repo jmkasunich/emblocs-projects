@@ -10,6 +10,7 @@ On Linux systems, things tend to be installed in standard locations; that's not 
 * ARM_GNU_TOOLCHAIN_PATH - installed [arm-none-eabi gcc compiler](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads) and related tools (including GDB)
 * OPENOCD_PATH - installed OPENOCD debug server
 * STM32G4_PATH - STM32G4xx support package (downloaded from [ST Micro](https://www.st.com/en/embedded-software/stm32cubeg4.html))
+* PICK_SDK_PATH - installed Raspberry Pi Pico SDK
 
-There is a VS Code configuration for each sample project to support Intellisense and build/debug, however VS Code is entirely optional. The intent is that you can use whatever editor you want and invoke the build system from a command line.  Note that VS Code configurations are not located in the individual project directories; that is a VS Code limitation.  All VS Code config data is in {toplevel}/.vscode/c_cpp_properties.json and {toplevel}/.vscode/launch.json.
+There is a VS Code configuration for each sample project to support Intellisense and build/debug, however VS Code is entirely optional. The intent is that you can use whatever editor you want and invoke the build system from a command line.  Note that VS Code configurations are not located in the individual project directories; that is a VS Code limitation.  All VS Code config data is in {toplevel}/.vscode/c_cpp_properties.json and {toplevel}/.vscode/launch.json.  NOTE: the above info about VS Code has changed, documentation will be updated soon.
 

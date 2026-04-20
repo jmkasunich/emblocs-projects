@@ -2,7 +2,7 @@
     "configurations": [
         {
             "name": "pi-pico-bare",
-            "compileCommands": "${workspaceFolder}/projects/pi-pico-bare/build/compile_commands.json",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
             "compilerPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc.exe"
         }
     ],

@@ -1,0 +1,27 @@
+# Copy this file to local.cmake and edit as needed for your machine.
+# local.cmake is not committed to the repo.
+#
+# Required Windows environment variables - set these in your user environment
+# before using this project:
+#
+#   ARM_GNU_TOOLCHAIN_PATH  - root of arm-none-eabi-gcc toolchain
+#                             e.g. C:\ArmGCC\Arm-GNU-Toolchain-arm-none-eabi\14.2-rel1
+#
+#   PICO_SDK_PATH           - root of the Raspberry Pi Pico SDK
+#                             e.g. C:\pi_pico\pico-sdk
+#
+#   OPENOCD_PATH            - root of OpenOCD installation (needed for debugging)
+#                             e.g. C:\openocd
+#
+# Required PATH entries:
+#   %ARM_GNU_TOOLCHAIN_PATH%\bin  - arm-none-eabi-gcc and friends
+#   cmake\bin                      - cmake executable
+#   ninja                          - ninja build tool
+#
+# Derive toolchain path from environment variable - edit if your setup differs
+set(PICO_TOOLCHAIN_PATH $ENV{ARM_GNU_TOOLCHAIN_PATH})
+
+# Uncomment and edit these if you need to override environment variables:
+# set(PICO_SDK_PATH "C:/...")
+# set(PICO_TOOLCHAIN_PATH "C:/...")
+# set(CMAKE_MAKE_PROGRAM "C:/...")

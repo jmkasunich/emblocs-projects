@@ -1,5 +1,6 @@
 # host specific makefiles
 local.mk
+local.cmake
 
 # build tree directories
 build/
@@ -7,3 +8,5 @@ build/
 # temporary directories
 temp/
 
+# VS Code personal/host-specific settings
+.vscode/launch.json

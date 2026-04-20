@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "name": "pi-pico-bare",
+            "path": "projects/pi-pico-bare"
+        },
+        {
+            "name": "emblocs",
+            "path": "submodules/emblocs"
+        }
+    ],
+    "settings": {}
+}

@@ -19,5 +19,6 @@
     "cmake.configureOnOpen": false,
     "cmake.automaticReconfigure": false,
     "raspberry-pi-pico.cmakeAutoConfigure": false,
-    "raspberry-pi-pico.useCmakeTools": false
+    "raspberry-pi-pico.useCmakeTools": false,
+    "debug.toolBarLocation": "docked"
 }

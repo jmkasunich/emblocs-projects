@@ -50,6 +50,14 @@ add_executable(main
     main.c
 )
 
+# Compiler flags - set explicitly rather than relying on CMAKE_BUILD_TYPE
+# -g    include debug symbols
+# -Og   optimize for debugging (minimal optimization, preserves structure)
+target_compile_options(main PRIVATE
+    -g
+    -Og
+)
+
 # Header file locations
 target_include_directories(main PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}

@@ -1,7 +1,23 @@
 {
     "C_Cpp.intelliSenseEngine": "default",
     "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+    "C_Cpp.debugShortcut": false,
+    "cmake.showSystemKits": false,
+    "cmake.options.statusBarVisibility": "hidden",
+    "cmake.options.advanced": {
+        "build": {
+            "statusBarVisibility": "hidden"
+        },
+        "launch": {
+            "statusBarVisibility": "hidden"
+        },
+        "debug": {
+            "statusBarVisibility": "hidden"
+        }
+    },
+    "cmake.configureOnEdit": false,
     "cmake.configureOnOpen": false,
     "cmake.automaticReconfigure": false,
-    "raspberry-pi-pico.cmakeAutoConfigure": false
+    "raspberry-pi-pico.cmakeAutoConfigure": false,
+    "raspberry-pi-pico.useCmakeTools": false
 }

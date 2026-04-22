@@ -1,3 +1,19 @@
+# The following block supports the Raspberry Pi Pico VS Code extension.
+# It is safe to remove if you are not using that extension.
+# If kept, update version numbers when upgrading the SDK or toolchain.
+if(WIN32)
+    set(USERHOME $ENV{USERPROFILE})
+else()
+    set(USERHOME $ENV{HOME})
+endif()
+set(sdkVersion 2.2.0)
+set(toolchainVersion 14_2_Rel1)
+set(picotoolVersion 2.2.0-a4)
+set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+if (EXISTS ${picoVscode})
+    include(${picoVscode})
+endif()
+# ====================================================================================
 # Pull in local machine configuration (paths to tools, SDK, etc.)
 # See local.cmake.template for host-specific configuration.
 include(local.cmake OPTIONAL RESULT_VARIABLE LOCAL_CMAKE_FOUND)

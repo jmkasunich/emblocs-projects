@@ -23,9 +23,9 @@ int main(void)
 
     while (1) {
         gpio_put(LED_PIN, 1);
-        delay_us(500);
+        delay_us(500000);
         gpio_put(LED_PIN, 0);
-        delay_us(500);
+        delay_us(500000);
     }
 
     return 0;

@@ -10,3 +10,9 @@ temp/
 
 # VS Code personal/host-specific settings
 .vscode/launch.json
+
+# temporary files
+diff.txt
+*.bak
+*.tmp
+*.log

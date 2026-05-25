@@ -45,11 +45,14 @@ set(CMAKE_CXX_STANDARD 17)
 # Initialize the Pico SDK - must be after project()
 pico_sdk_init()
 
+# Project target name - change this to rename all output files
+set(TARGET blink)
+
 # Path to emblocs headers
 set(EMBLOCS_INC ${CMAKE_CURRENT_SOURCE_DIR}/../../submodules/emblocs/src/emblocs)
 
 # Define the executable first - blink.cmake will add sources to it
-add_executable(main
+add_executable(${TARGET}
     main.c
 )
 
@@ -60,22 +63,36 @@ include(${CMAKE_BINARY_DIR}/blink.cmake)
 # Compiler flags - set explicitly rather than relying on CMAKE_BUILD_TYPE
 # -g    include debug symbols
 # -Og   optimize for debugging (minimal optimization, preserves structure)
-target_compile_options(main PRIVATE
+target_compile_options(${TARGET} PRIVATE
     -g
     -Og
 )
 
 # Header file locations
-target_include_directories(main PRIVATE
+target_include_directories(${TARGET} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${EMBLOCS_INC}
 )
 
 # Link against Pico SDK - linked once for all sources
-target_link_libraries(main
+target_link_libraries(${TARGET}
     pico_stdlib
 )
+
+# Generate map file for symbol and memory layout inspection
+target_link_options(${TARGET} PRIVATE
+    -Wl,-Map=${CMAKE_BINARY_DIR}/${TARGET}.map
+)
+
+# Report size of generated code
+add_custom_command(
+    TARGET ${TARGET}
+    POST_BUILD
+    COMMAND arm-none-eabi-size $<TARGET_FILE:${TARGET}>
+    COMMENT "Calculating target size:"
+)
+
 
 # Generate .uf2 and other output formats
 # Requires picotool - see README for installation instructions

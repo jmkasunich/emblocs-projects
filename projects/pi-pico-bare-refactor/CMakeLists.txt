@@ -48,17 +48,45 @@ pico_sdk_init()
 # Project target name - change this to rename all output files
 set(TARGET blink)
 
-# Path to emblocs headers
-set(EMBLOCS_INC ${CMAKE_CURRENT_SOURCE_DIR}/../../submodules/emblocs/src/emblocs)
+# Path to emblocs - override in local.cmake if not using standard layout
+if(NOT DEFINED EMBLOCS_DIR)
+    set(EMBLOCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../submodules/emblocs)
+endif()
 
-# Define the executable first - blink.cmake will add sources to it
+# Path to emblocs headers
+set(EMBLOCS_INC ${EMBLOCS_DIR}/src/emblocs)
+
+# Define the executable first - ${TARGET}.cmake will add sources to it
 add_executable(${TARGET}
     main.c
 )
 
-# Pull in the generated source files and compile rules from Tool 2
-# Run variant_compiler.py manually to regenerate when blink.blocs changes
-include(${CMAKE_BINARY_DIR}/blink.cmake)
+# Run blocs_compiler.py at configure time to generate source files
+# CMake will auto-reconfigure if ${TARGET}.blocs or emblocs.json change
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/${TARGET}.blocs
+    ${CMAKE_CURRENT_SOURCE_DIR}/emblocs.json
+)
+
+# Run blocs_compiler.py at configure time
+execute_process(
+    COMMAND python
+        ${EMBLOCS_DIR}/python/blocs_compiler.py
+        ${CMAKE_CURRENT_SOURCE_DIR}/${TARGET}.blocs
+        ${CMAKE_BINARY_DIR}
+    RESULT_VARIABLE BLOCS_COMP_RESULT
+    OUTPUT_VARIABLE BLOCS_COMP_OUTPUT
+    ERROR_VARIABLE BLOCS_COMP_OUTPUT
+)
+if(NOT BLOCS_COMP_RESULT EQUAL 0)
+    message(FATAL_ERROR "blocs_compiler.py failed:\n${BLOCS_COMP_OUTPUT}")
+else()
+    message(STATUS "${BLOCS_COMP_OUTPUT}")
+endif()
+
+# Include the generated cmake rules:
+# This adds generated source files to ${TARGET}
+include(${CMAKE_BINARY_DIR}/${TARGET}.cmake)
 
 # Compiler flags - set explicitly rather than relying on CMAKE_BUILD_TYPE
 # -g    include debug symbols
@@ -66,6 +94,8 @@ include(${CMAKE_BINARY_DIR}/blink.cmake)
 target_compile_options(${TARGET} PRIVATE
     -g
     -Og
+    -Wall
+    -Wextra
 )
 
 # Header file locations
@@ -96,4 +126,4 @@ add_custom_command(
 
 # Generate .uf2 and other output formats
 # Requires picotool - see README for installation instructions
-# pico_add_extra_outputs(main)
+# pico_add_extra_outputs(${TARGET})

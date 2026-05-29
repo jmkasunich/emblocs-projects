@@ -4,6 +4,11 @@
             "name": "pi-pico-bare",
             "compileCommands": "${workspaceFolder}/projects/pi-pico-bare/build/compile_commands.json",
             "compilerPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc.exe"
+        },
+        {
+            "name": "pi-pico-bare-refactor",
+            "compileCommands": "${workspaceFolder}/projects/pi-pico-bare-refactor/build/compile_commands.json",
+            "compilerPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc.exe"
         }
     ],
     "version": 4

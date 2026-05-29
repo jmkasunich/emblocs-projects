@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "name": "pi-pico-bare-refactor",
+            "path": "projects/pi-pico-bare-refactor"
+        },
+        {
+            "name": "emblocs",
+            "path": "submodules/emblocs"
+        }
+    ],
+    "settings": {}
+}

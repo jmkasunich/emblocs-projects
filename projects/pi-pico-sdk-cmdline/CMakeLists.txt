@@ -15,28 +15,43 @@ if (EXISTS ${picoVscode})
 endif()
 # ====================================================================================
 
-# Pull in local machine configuration (paths to tools, SDK, etc.)
-# See local.cmake.template for host-specific configuration.
-include(local.cmake OPTIONAL RESULT_VARIABLE LOCAL_CMAKE_FOUND)
-if(NOT LOCAL_CMAKE_FOUND)
-    message(WARNING "local.cmake not found - relying on environment variables and PATH")
-endif()
-
 # Minimum CMake version required by Pico SDK
 cmake_minimum_required(VERSION 3.13)
 
 # Generate compile_commands.json for IntelliSense
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Pull in Pico SDK bootstrapping - must be before project()
-include(pico_sdk_import.cmake)
+# ============================================================
+# Project configuration - edit these lines
+# ============================================================
 
-# Target platform and board - must be set before project() and pico_sdk_init()
+# Project name - used by CMake to identify this project.
+# Note: this is not the same as TARGET (the executable name).
+# For this project they happen to be different: the project is named
+# after the build approach (cmdline) while the executable is named
+# after what it does (blink).
+set(PROJECT_NAME pi-pico-sdk-cmdline)
+
+# Name of blocs file (without extension) that defines emblocs content
+set(BLOCS_FILE blink)
+
+# Target name - change to rename all output files
+set(TARGET blink)
+
+# Path to emblocs - override in local.cmake if not using standard layout
+set(EMBLOCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../submodules/emblocs)
+
+# Target platform and board
 set(PICO_PLATFORM rp2040)
 set(PICO_BOARD pico)
 
+# ============================================================
+
+# Pull in Pico SDK bootstrapping - must be before project()
+include(pico_sdk_import.cmake)
+
 # Define project name and languages
-project(pi-pico-bare-refactor C CXX ASM)
+project(${PROJECT_NAME} C CXX ASM)
 
 # Set C and C++ standards
 set(CMAKE_C_STANDARD 11)
@@ -45,48 +60,13 @@ set(CMAKE_CXX_STANDARD 17)
 # Initialize the Pico SDK - must be after project()
 pico_sdk_init()
 
-# Project target name - change this to rename all output files
-set(TARGET blink)
-
-# Path to emblocs - override in local.cmake if not using standard layout
-if(NOT DEFINED EMBLOCS_DIR)
-    set(EMBLOCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../submodules/emblocs)
-endif()
-
-# Path to emblocs headers
-set(EMBLOCS_INC ${EMBLOCS_DIR}/src/emblocs)
-
-# Define the executable first - ${TARGET}.cmake will add sources to it
+# Define the executable - add non-emblocs source files here
 add_executable(${TARGET}
     main.c
 )
 
-# Run blocs_compiler.py at configure time to generate source files
-# CMake will auto-reconfigure if ${TARGET}.blocs or emblocs.json change
-set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
-    ${CMAKE_CURRENT_SOURCE_DIR}/${TARGET}.blocs
-    ${CMAKE_CURRENT_SOURCE_DIR}/emblocs.json
-)
-
-# Run blocs_compiler.py at configure time
-execute_process(
-    COMMAND python
-        ${EMBLOCS_DIR}/python/blocs_compiler.py
-        ${CMAKE_CURRENT_SOURCE_DIR}/${TARGET}.blocs
-        ${CMAKE_BINARY_DIR}
-    RESULT_VARIABLE BLOCS_COMP_RESULT
-    OUTPUT_VARIABLE BLOCS_COMP_OUTPUT
-    ERROR_VARIABLE BLOCS_COMP_OUTPUT
-)
-if(NOT BLOCS_COMP_RESULT EQUAL 0)
-    message(FATAL_ERROR "blocs_compiler.py failed:\n${BLOCS_COMP_OUTPUT}")
-else()
-    message(STATUS "${BLOCS_COMP_OUTPUT}")
-endif()
-
-# Include the generated cmake rules:
-# This adds generated source files to ${TARGET}
-include(${CMAKE_BINARY_DIR}/${TARGET}.cmake)
+# include emblocs.cmake to run blocs_compiler.py at configure time
+include(${EMBLOCS_DIR}/cmake/emblocs.cmake)
 
 # Compiler flags - set explicitly rather than relying on CMAKE_BUILD_TYPE
 # -g    include debug symbols
@@ -101,8 +81,6 @@ target_compile_options(${TARGET} PRIVATE
 # Header file locations
 target_include_directories(${TARGET} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_BINARY_DIR}
-    ${EMBLOCS_INC}
 )
 
 # Link against Pico SDK - linked once for all sources

@@ -10,7 +10,7 @@ int main(void) {
     // run the blink thread periodically at 500ms
     while (1) {
         blink_blink(500000000);
-        sleep_ms(250);
+        sleep_ms(500);
     }
 
     return 0;

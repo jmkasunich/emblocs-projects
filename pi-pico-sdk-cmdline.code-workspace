@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "name": "pi-pico-sdk-cmdline",
+            "path": "projects/pi-pico-sdk-cmdline"
+        },
+        {
+            "name": "emblocs",
+            "path": "submodules/emblocs"
+        }
+    ],
+    "settings": {}
+}

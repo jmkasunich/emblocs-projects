@@ -1,0 +1,13 @@
+# blink.blocs - blink the onboard LED (GP25) at 1Hz
+# Uses a not block as a toggle, feedback loop creates oscillation
+
+blockdef pico_gpio  LIB:/pico_gpio.bloc  INPUTS=0  OUTPUTS=0x02000000  ENABLES=0
+blockdef not_block  LIB:/not.bloc
+
+block gpio  pico_gpio
+block tog   not_block
+
+signal state  bool  +tog.out  +tog.in  +gpio.pin25_out
+
+thread init   1          +gpio.init
+thread blink  500000000  +tog.update  +gpio.write

@@ -3,9 +3,10 @@ emblocs-projects/
     LICENSE
     README.md
     dirtree.txt    <- this file
-    pi-pico-bare.code-workspace
+    pi-pico-sdk-cmdline.code-workspace
+    pi-pico-sdk-vscode.code-workspace
     projects/
-        G431-ESC1-bare/
+        G431-ESC1-bare-make/
             main.c
             Makefile
             openocd.cfg
@@ -19,11 +20,12 @@ emblocs-projects/
                 launch.json
             /build
                 build artifacts (not tracked)
-        pi-pico-bare/
+        pi-pico-sdk-cmdline/
+            blink.blocs
             CMakeLists.txt
-            configure.bat
-            local.cmake (not tracked)
-            local.cmake.template
+            debug.cfg
+            emblocs.json
+            flash.cfg
             main.c
             pico_sdk_import.cmake
             README.md
@@ -35,11 +37,27 @@ emblocs-projects/
                 tasks.json
             build/
                 build artifacts (not tracked)
+        pi-pico-sdk-vscode/
+            .gitignore
+            blink.blocs
+            CMakeLists.txt
+            emblocs.json
+            main.c
+            pico_sdk_import.cmake
+            README.md
+            .vscode/
+                c_cpp_properties.json
+                cmake-kits.json
+                extensions.json
+                launch.json
+                settings.json
+                tasks.json
+            build/
+                build artifacts (not tracked)
         F103-bluepill-bare/
-            README.md
-        pi-pico-freertos/
-            README.md
-        (several other hoped-for platforms, with only README.md)
+            README.md      <- hoped-for platform, README has useful info
+        G474-weact-bare/
+            README.md      <- hoped-for platform, README has useful info
     submodules/
         emblocs/
-            see emblocs dirtree - currently on code-only-refactor branch
+            see emblocs/docs/dirtree.txt - currently on main branch

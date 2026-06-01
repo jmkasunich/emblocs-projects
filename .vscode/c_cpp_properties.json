@@ -9,6 +9,11 @@
             "name": "pi-pico-sdk-cmdline",
             "compileCommands": "${workspaceFolder}/projects/pi-pico-sdk-cmdline/build/compile_commands.json",
             "compilerPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc.exe"
+        },
+        {
+            "name": "G431-ESC1-bare",
+            "compileCommands": "${workspaceFolder}/projects/G431-ESC1-bare/build/compile_commands.json",
+            "compilerPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc.exe",
         }
     ],
     "version": 4

@@ -1,0 +1,43 @@
+// tasks.json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Configure Project",
+            "type": "process",
+            "command": "cmake",
+            "args": ["-B", "build", "-G", "Ninja"],
+            "problemMatcher": []
+        },
+        {
+            "label": "Compile Project",
+            "type": "process",
+            "isBuildCommand": true,
+            "command": "cmake",
+            "args": ["--build", "build"],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Flash (OpenOCD)",
+            "type": "process",
+            "command": "openocd",
+            "args": ["-f", "flash.cfg"],
+            "problemMatcher": []
+        },
+        {
+            "label": "Rescue Reset",
+            "type": "process",
+            "command": "openocd",
+            "args": [
+                "-f", "debug.cfg",
+                "-c", "init; reset halt; exit"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}

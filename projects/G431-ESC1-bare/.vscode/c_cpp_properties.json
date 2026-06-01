@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "G431-ESC1-bare",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "compilerPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc.exe",
+        }
+    ],
+    "version": 4
+}

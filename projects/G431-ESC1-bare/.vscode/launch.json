@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "G431-ESC1-bare (OpenOCD)",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/main.elf",
+            "servertype": "openocd",
+            "serverpath": "${env:OPENOCD_PATH}/bin/openocd.exe",
+            "gdbPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin/arm-none-eabi-gdb.exe",
+            "armToolchainPath": "${env:ARM_GNU_TOOLCHAIN_PATH}/bin",
+            "device": "STM32G431KB",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "searchDir": [
+                "${env:OPENOCD_PATH}/scripts"
+            ],
+            "runToEntryPoint": "main",
+            "openOCDLaunchCommands": [
+                "adapter speed 1800"
+            ],
+            "showDevDebugOutput": "none"
+        }
+    ]
+}

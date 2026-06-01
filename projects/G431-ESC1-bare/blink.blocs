@@ -1,0 +1,13 @@
+# blink.blocs - blink the onboard LED (PC06) at 1Hz
+# Uses a not block as a toggle, feedback loop creates oscillation
+
+blockdef portC_gpio LIB:/stm32_gpio.bloc  PORT_NUM=2 INPUTS=0  OUTPUTS=0x00000040  ENABLES=0
+blockdef not_block  LIB:/not.bloc
+
+block portC portC_gpio
+block tog   not_block
+
+signal state  bool  +tog.out  +tog.in  +portC.pin06_out
+
+thread init   1          +portC.init
+thread blink  500000000  +tog.update  +portC.write

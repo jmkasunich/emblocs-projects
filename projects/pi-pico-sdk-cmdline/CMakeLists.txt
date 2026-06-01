@@ -38,7 +38,7 @@ set(BLOCS_FILE blink)
 # Target name - change to rename all output files
 set(TARGET blink)
 
-# Path to emblocs - override in local.cmake if not using standard layout
+# Path to emblocs - change this if not using standard layout
 set(EMBLOCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../submodules/emblocs)
 
 # Target platform and board

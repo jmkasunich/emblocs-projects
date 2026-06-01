@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "name": "G431-ESC1-bare",
+            "path": "projects/G431-ESC1-bare"
+        },
+        {
+            "name": "emblocs",
+            "path": "submodules/emblocs"
+        }
+    ],
+    "settings": {}
+}

@@ -5,19 +5,28 @@ emblocs-projects/
     dirtree.txt    <- this file
     pi-pico-sdk-cmdline.code-workspace
     pi-pico-sdk-vscode.code-workspace
+    g431-esc1-bare.code-workspace
     projects/
-        G431-ESC1-bare-make/
+        G431-ESC1-bare/
+            blink.blocs
+            CMakeLists.txt
+            debug.cfg
+            emblocs.json
+            FindSTM32G4.cmake
+            flash.cfg
             main.c
-            Makefile
-            openocd.cfg
             platform.c
             platform.h
             README.md
             startup_stm32g431kbtx.s
             STM32G431KBTX_FLASH.ld
             system_stm32g4xx.c
-            /.vscode
+            .vscode/
+                c_cpp_properties.json
+                extensions.json
                 launch.json
+                settings.json
+                tasks.json
             /build
                 build artifacts (not tracked)
         pi-pico-sdk-cmdline/

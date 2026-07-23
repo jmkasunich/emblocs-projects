@@ -70,3 +70,6 @@ emblocs-projects/
     submodules/
         emblocs/
             see emblocs/docs/dirtree.txt - currently on main branch
+    utils/
+        stm32-crc16.c     <- hardware accelerated bundle.c crc for STM32
+        stm32-crc16.h

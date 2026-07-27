@@ -23,6 +23,11 @@
 #include "stm32g4xx.h"
 #pragma GCC diagnostic pop
 //#include "platform.h"
+#include "bundle.h"
+
+
+extern bdl_rx_t monitor_rx;
+extern bdl_tx_t monitor_tx;
 
 /* platform_init() performs core initialization
  *

@@ -10,8 +10,19 @@ void delay_us(unsigned int us) {
     } while (elapsed < target);
 }
 
+void print_string(const char *str)
+{
+    const char *cp = str;
+    while (*cp != '\0' ) {
+        bdl_string_put_bl(&monitor_tx, *cp++);
+    }
+}
+
+
 int main(void) {
     platform_init();
+    print_string("hello, world\n");
+
     blink_init(1);
     while (1) {
         blink_blink(500000000);

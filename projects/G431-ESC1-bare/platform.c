@@ -6,13 +6,38 @@
  * 
  * *************************************************************/
 #include "platform.h"
+#include "bundle.h"
 
 #include "stm32g4xx_ll_bus.h"
 #include "stm32g4xx_ll_pwr.h"
 #include "stm32g4xx_ll_rcc.h"
 #include "stm32g4xx_ll_system.h"
 
-//#include "serial.h"
+void USART2_start_tx(void);
+
+#define MONITOR_RX_STRING_BUF_SIZE 100
+#define MONITOR_TX_STRING_BUF_SIZE 500
+
+static uint8_t monitor_rx_buf[MONITOR_RX_STRING_BUF_SIZE];
+static uint8_t monitor_tx_buf[MONITOR_TX_STRING_BUF_SIZE];
+
+bdl_rx_t monitor_rx;
+const bdl_rx_config_t monitor_rx_config = {
+    .string_buf          = monitor_rx_buf,
+    .string_buf_size     = sizeof(monitor_rx_buf),
+    .string_avail        = NULL,
+    .crc16               = bdl_crc16_lookup,
+};
+
+bdl_tx_t monitor_tx;
+const bdl_tx_config_t monitor_tx_config = {
+    .string_buf          = monitor_tx_buf,
+    .string_buf_size     = sizeof(monitor_tx_buf),
+    .string_not_full     = NULL,
+    .crc16               = bdl_crc16_lookup,
+    .tx_bytes_available  = USART2_start_tx,
+};
+
 
 /* platform_init() performs core initialization
  *
@@ -179,14 +204,15 @@ void platform_init(void)
     USART2->CR1 |= USART_CR1_UE;
     // enable reciever and transmitter
     USART2->CR1 |= USART_CR1_TE | USART_CR1_RE;
-    #ifndef CONSOLE_POLLED
-        // enable reciever not-empty interrupt
-        USART2->CR1 |= USART_CR1_RXNEIE_RXFNEIE;
-        // enable UART master interrupt
-        __NVIC_EnableIRQ(USART2_IRQn);
-        // enable global interrupts
-        __enable_irq();
-    #endif
+    // set up bundle objects
+    bdl_init_rx(&monitor_rx, &monitor_rx_config);
+    bdl_init_tx(&monitor_tx, &monitor_tx_config);
+    // enable reciever not-empty interrupt
+    USART2->CR1 |= USART_CR1_RXNEIE_RXFNEIE;
+    // enable UART master interrupt
+    __NVIC_EnableIRQ(USART2_IRQn);
+    // enable global interrupts
+    __enable_irq();
 
     /* Timestamp Counter Configuration
      *      Counter           = TIM2
@@ -197,7 +223,6 @@ void platform_init(void)
     TIM2->CR1 |= TIM_CR1_CEN;
 }
 
-#if 0
 /* console serial port
  *
  * The 'console' is just a UART, but on an MCU with multiple UARTs, it is the 
@@ -206,10 +231,6 @@ void platform_init(void)
  * hard-code the UART handle for convenience and speed.
  */
 
-#ifndef CONSOLE_POLLED
-/* This implementation is interrupt driven with buffers in RAM. */
-
-
 void USART2_IRQHandler(void)
 {
     uint32_t c;
@@ -217,12 +238,12 @@ void USART2_IRQHandler(void)
     PB7_OUT(1);
     // check for UART received data
     while ( (USART2)->ISR & (USART_ISR_RXNE_RXFNE_Msk) ) {
-        ser_put_rx_byte((uint8_t)((USART2)->RDR));
+        bdl_put_rx_byte(&monitor_rx, (uint8_t)((USART2)->RDR));
     }
     // check for UART ready to send data
     while ( (USART2)->ISR & (USART_ISR_TXE_TXFNF_Msk) ) {
         PA15_OUT(1);
-        c = ser_get_tx_byte();
+        c = bdl_get_tx_byte(&monitor_tx);
         PA15_OUT(0);
         if ( c <= 255 ) {
             // there is a byte to send, write it to the UART
@@ -237,7 +258,7 @@ void USART2_IRQHandler(void)
     PB7_OUT(0);
 }
 
-void ser_start_tx(void)
+void USART2_start_tx(void)
 {
     // enable TX FIFO threshold interrupt to kick things off
     PB8_OUT(1);
@@ -248,20 +269,20 @@ void ser_start_tx(void)
 /* returns non-zero if transmitter can accept a character */
 int cons_tx_ready(void)
 {
-    return ser_ascii_can_put();
+    return bdl_string_can_put(&monitor_tx);
 }
 
 /* transmits a character without waiting; data can be lost if transmitter is not ready */
 void cons_tx(char c)
 {
-    ser_ascii_put_nb(c);
+    bdl_string_put_nb(&monitor_tx, c);
 }
 
 /* waits until transmitter is ready, then transmits character */
 void cons_tx_wait(char c)
 {
     PB6_OUT(1);
-    ser_ascii_put_bl(c);
+    bdl_string_put_bl(&monitor_tx, c);
     PB6_OUT(0);
 }
 
@@ -274,70 +295,20 @@ int cons_tx_idle(void)
 /* returns non-zero if reciever has a character available */
 int cons_rx_ready(void)
 {
-    return ser_ascii_can_get();
+    return bdl_string_can_get(&monitor_rx);
 }
 
 /* gets a character without waiting, returns zero if no data available */
-char cons_rx(void)
+uint32_t cons_rx(void)
 {
-    return ser_ascii_get_nb();
+    return bdl_string_get_nb(&monitor_rx);
 }
 
 /* waits until receiver is ready, then gets character */
 char cons_rx_wait(void)
 {
-    return ser_ascii_get_bl();
+    return bdl_string_get_bl(&monitor_rx);
 }
-#endif  // not CONSOLE_POLLED
-
-#ifdef CONSOLE_POLLED
-/* This implementation is polled, using only the 8-byte hardware FIFO. */
-
-/* returns non-zero if transmitter can accept a character */
-int cons_tx_ready(void)
-{
-    return ( USART2->ISR & USART_ISR_TXE_TXFNF_Msk );
-}
-
-/* transmits a character without waiting; data can be lost if transmitter is not ready */
-void cons_tx(char c)
-{
-    USART2->TDR = c;
-}
-
-/* waits until transmitter is ready, then transmits character */
-void cons_tx_wait(char c)
-{
-    while ( !(USART2->ISR & USART_ISR_TXE_TXFNF_Msk) );
-    USART2->TDR = c;
-}
-
-/* returns non-zero if transmitter is idle (all characters sent) */
-int cons_tx_idle(void)
-{
-    return ( USART2->ISR & USART_ISR_TC_Msk );
-}
-
-/* returns non-zero if reciever has a character available */
-int cons_rx_ready(void)
-{
-    return ( USART2->ISR & USART_ISR_RXNE_RXFNE_Msk );
-}
-
-/* gets a character without waiting, may return garbage if reciever is not ready */
-char cons_rx(void)
-{
-    return (char)((USART2)->RDR);
-}
-
-/* waits until receiver is ready, then gets character */
-char cons_rx_wait(void)
-{
-    while ( !(USART2->ISR & USART_ISR_RXNE_RXFNE_Msk) );
-    return (char)((USART2)->RDR);
-}
-#endif // CONSOLE_POLLED
-#endif // 0
 
 /* time stamp counter
  *

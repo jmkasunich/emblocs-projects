@@ -4,12 +4,17 @@
 search $EMBLOCS/src/components
 
 blockdef portC_gpio stm32_gpio  PORT_NUM=2 INPUTS=0  OUTPUTS=0x00000040  ENABLES=0
+blockdef portB_gpio stm32_gpio  PORT_NUM=1 INPUTS=0  OUTPUTS=0x000000C0  ENABLES=0
 blockdef not_block  not
 
 block portC portC_gpio
-block tog   not_block
+block portB portB_gpio
+block tog_led   not_block
+block tog_pin   not_block
 
-signal state  bool  +tog.out  +tog.in  +portC.pin06_out
+signal pin  bool  +tog_pin.out  +tog_pin.in  +portB.pin06_out
+signal led  bool  +tog_led.out  +tog_led.in  +portC.pin06_out
 
-thread init   1          +portC.init
-thread blink  500000000  +tog.update  +portC.write
+thread init   1          +portB.init +portC.init
+thread toggle 50000      +tog_pin.update  +portB.write
+thread blink  50000000   +tog_led.update  +portC.write

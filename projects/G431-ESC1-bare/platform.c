@@ -252,7 +252,7 @@ int _write(int fd, char *ptr, int len)
         }
     }
 
-    return len;   // report full length regardless of drops; see note below
+    return len;   // report full length regardless of drops
 }
 
 void USART2_IRQHandler(void)

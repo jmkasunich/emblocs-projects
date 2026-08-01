@@ -48,7 +48,7 @@ set(DEBUG_FLAGS
 set(WARNING_FLAGS
     -Wall
     -Wextra
-    -Wfatal-errors
+    -fmax-errors=10
     -Wpacked
     -Winline
     -Wfloat-equal

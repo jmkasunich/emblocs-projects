@@ -87,6 +87,7 @@ add_executable(${TARGET}
     platform.c
     system_stm32g4xx.c
     startup_stm32g431kbtx.s
+    syscalls.c
 )
 
 # include emblocs.cmake to run blocs_compiler.py at configure time
@@ -122,7 +123,7 @@ target_link_options(${TARGET} PRIVATE
     ${DEBUG_FLAGS}
     -T${CMAKE_CURRENT_SOURCE_DIR}/STM32G431KBTX_FLASH.ld
     -Xlinker --gc-sections
-    --specs=rdimon.specs
+    --specs=nosys.specs
     --specs=nano.specs
     -Wl,-Map=${CMAKE_BINARY_DIR}/${TARGET}.map
 )

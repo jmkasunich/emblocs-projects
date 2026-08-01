@@ -14,16 +14,20 @@
 #endif
 
 #include <stdint.h>
-#ifndef uint
-#define uint unsigned int
-#endif
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #include "stm32g4xx.h"
 #pragma GCC diagnostic pop
-//#include "platform.h"
 #include "bundle.h"
+
+
+#define MONITOR_RX_STRING_BUF_SIZE 100
+#define MONITOR_TX_STRING_BUF_SIZE 500
+
+#define MONITOR_UART_IRQ_PRIORITY   2
+#define HIGHEST_THREAD_PRIORITY     4
+#define PROFILE_PRIORITY            0
 
 
 extern bdl_rx_t monitor_rx;

@@ -8,6 +8,11 @@
 #include "platform.h"
 #include "bundle.h"
 
+#include <stdio.h>
+#include <errno.h>
+#include <unistd.h>
+
+
 #include "stm32g4xx_ll_bus.h"
 #include "stm32g4xx_ll_pwr.h"
 #include "stm32g4xx_ll_rcc.h"
@@ -15,8 +20,6 @@
 
 void USART2_start_tx(void);
 
-#define MONITOR_RX_STRING_BUF_SIZE 100
-#define MONITOR_TX_STRING_BUF_SIZE 500
 
 static uint8_t monitor_rx_buf[MONITOR_RX_STRING_BUF_SIZE];
 static uint8_t monitor_tx_buf[MONITOR_TX_STRING_BUF_SIZE];
@@ -210,9 +213,14 @@ void platform_init(void)
     // enable reciever not-empty interrupt
     USART2->CR1 |= USART_CR1_RXNEIE_RXFNEIE;
     // enable UART master interrupt
-    __NVIC_EnableIRQ(USART2_IRQn);
+    NVIC_SetPriority(USART2_IRQn, MONITOR_UART_IRQ_PRIORITY);
+    NVIC_EnableIRQ(USART2_IRQn);
     // enable global interrupts
     __enable_irq();
+
+    // tell libc that stdout and stderr are unbuffered
+    setvbuf(stdout, NULL, _IONBF, 0);
+    setvbuf(stderr, NULL, _IONBF, 0);
 
     /* Timestamp Counter Configuration
      *      Counter           = TIM2
@@ -230,6 +238,22 @@ void platform_init(void)
  * passing a handle or something to identify which UART; the console functions
  * hard-code the UART handle for convenience and speed.
  */
+
+int _write(int fd, char *ptr, int len)
+{
+    if (fd != STDOUT_FILENO && fd != STDERR_FILENO) {
+        errno = EBADF;
+        return -1;
+    }
+
+    for (int i = 0; i < len; i++) {
+        if (!bdl_string_put_nb(&monitor_tx, ptr[i])) {
+            break;   // queue full — drop remainder, don't block
+        }
+    }
+
+    return len;   // report full length regardless of drops; see note below
+}
 
 void USART2_IRQHandler(void)
 {

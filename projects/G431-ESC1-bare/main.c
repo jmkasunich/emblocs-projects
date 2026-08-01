@@ -1,5 +1,6 @@
 #include "platform.h"
 #include "blink.h"
+#include <stdio.h>
 
 void delay_us(unsigned int us) {
     unsigned int elapsed;
@@ -21,7 +22,8 @@ void print_string(const char *str)
 
 int main(void) {
     platform_init();
-    print_string("hello, world\n");
+    printf("hello, world\n");
+
 
     blink_init(1);
     while (1) {

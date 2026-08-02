@@ -33,8 +33,7 @@ project?", click **No** — the project is already configured.
 
 Use the Raspberry Pi Pico extension's Quick Access panel in the Activity Bar:
 
-1. **Configure CMake** — run once after cloning or when `CMakeLists.txt` changes
-2. **Compile Project** — builds the project
+- **Compile Project** — configures (if needed) and builds the project
 
 EMBLOCS's `blocs_compiler.py` runs automatically during the configure step,
 so there is no separate tool invocation needed.

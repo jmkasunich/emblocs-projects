@@ -35,7 +35,10 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(pi-pico-sdk-vscode main.c )
+add_executable(pi-pico-sdk-vscode
+    main.c
+    platform.c
+)
 
 # ---- EMBLOCS configuration ----
 set(BLOCS_FILE blink)
@@ -48,12 +51,17 @@ pico_set_program_name(pi-pico-sdk-vscode "pi-pico-sdk-vscode")
 pico_set_program_version(pi-pico-sdk-vscode "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(pi-pico-sdk-vscode 1)
+# Note that EMBLOCS has its own interrupt driven UART interface to
+# support the 'bundle' protocol used by the EMBLOCS monitor.
+# Therefore we disable the SDK's polled stdio interface.
+pico_enable_stdio_uart(pi-pico-sdk-vscode 0)
 pico_enable_stdio_usb(pi-pico-sdk-vscode 0)
 
 # Add the standard library to the build
 target_link_libraries(pi-pico-sdk-vscode
-        pico_stdlib)
+        pico_stdlib
+        cmsis_core
+)
 
 # Add the standard include files to the build
 target_include_directories(pi-pico-sdk-vscode PRIVATE

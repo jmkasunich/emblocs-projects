@@ -63,6 +63,7 @@ pico_sdk_init()
 # Define the executable - add non-emblocs source files here
 add_executable(${TARGET}
     main.c
+    platform.c
 )
 
 # include emblocs.cmake to run blocs_compiler.py at configure time
@@ -86,7 +87,11 @@ target_include_directories(${TARGET} PRIVATE
 # Link against Pico SDK - linked once for all sources
 target_link_libraries(${TARGET}
     pico_stdlib
+    cmsis_core
 )
+
+# Disable the SDK's built-in polled UART driver — we're providing our own
+pico_enable_stdio_uart(${TARGET} 0)
 
 # Generate map file for symbol and memory layout inspection
 target_link_options(${TARGET} PRIVATE

@@ -3,13 +3,16 @@
 
 search $EMBLOCS/src/components
 
-blockdef pico_gpio  pico_gpio  INPUTS=0  OUTPUTS=0x02000000  ENABLES=0
+blockdef pico_gpio  pico_gpio  INPUTS=0  OUTPUTS=0x02008000  ENABLES=0
 blockdef not_block  not
 
-block gpio  pico_gpio
-block tog   not_block
+block gpio      pico_gpio
+block tog_led   not_block
+block tog_pin   not_block
 
-signal state  bool  +tog.out  +tog.in  +gpio.pin25_out
+signal pin  bool  +tog_pin.out  +tog_pin.in  +gpio.pin15_out
+signal led  bool  +tog_led.out  +tog_led.in  +gpio.pin25_out
 
 thread init   1          +gpio.init
-thread blink  500000000  +tog.update  +gpio.write
+thread toggle 500000     +tog_pin.update  +gpio.write
+thread blink  500000000  +tog_led.update

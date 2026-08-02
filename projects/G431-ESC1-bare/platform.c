@@ -1,6 +1,6 @@
 /***************************************************************
  * 
- * platform.h - platform specific code for STM32G431
+ * platform.c - platform specific code for STM32G431
  * 
  * 
  * 

@@ -17,9 +17,9 @@
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-conversion"
-#include "stm32g4xx.h"
+#include <stm32g4xx.h>
 #pragma GCC diagnostic pop
-#include "bundle.h"
+#include <bundle.h>
 
 
 #define MONITOR_RX_STRING_BUF_SIZE 100

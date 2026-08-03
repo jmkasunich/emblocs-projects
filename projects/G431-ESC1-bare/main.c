@@ -2,8 +2,8 @@
 #include "blink.h"
 #include <stdio.h>
 
-#include "stm32g4xx_ll_bus.h"
-#include "stm32g4xx_ll_tim.h"
+#include <stm32g4xx_ll_bus.h>
+#include <stm32g4xx_ll_tim.h>
 
 
 void delay_us(unsigned int us) {

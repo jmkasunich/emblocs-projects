@@ -76,7 +76,7 @@
   */
 
 #pragma GCC diagnostic ignored "-Wsign-conversion"
-#include "stm32g4xx.h"
+#include <stm32g4xx.h>
 #pragma GCC diagnostic pop
 
 #if !defined  (HSE_VALUE)

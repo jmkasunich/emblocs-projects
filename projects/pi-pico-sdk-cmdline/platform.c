@@ -6,18 +6,18 @@
  * 
  * *************************************************************/
 #include "platform.h"
-#include "bundle.h"
+#include <bundle.h>
 
 #include <stdio.h>
 #include <errno.h>
 #include <unistd.h>
 
-#include "pico/stdio.h"
-#include "pico/stdio/driver.h"
+#include <pico/stdio.h>
+#include <pico/stdio/driver.h>
 
-#include "hardware/uart.h"
-#include "hardware/irq.h"
-#include "hardware/gpio.h"
+#include <hardware/uart.h>
+#include <hardware/irq.h>
+#include <hardware/gpio.h>
 
 #define MONITOR_UART    uart0
 

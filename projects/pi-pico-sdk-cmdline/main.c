@@ -1,9 +1,9 @@
 #include "platform.h"
-#include "pico/stdlib.h"
-#include "hardware/timer.h"
-#include "hardware/irq.h"
+#include <pico/stdlib.h>
+#include <hardware/timer.h>
+#include <hardware/irq.h>
 #include "blink.h"
-#include "stdio.h"
+#include <stdio.h>
 
 static uint32_t alarm_target = 0;
 static uint32_t slow_thread_irq = 0;

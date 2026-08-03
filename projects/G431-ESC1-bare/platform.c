@@ -6,17 +6,17 @@
  * 
  * *************************************************************/
 #include "platform.h"
-#include "bundle.h"
+#include <bundle.h>
 
 #include <stdio.h>
 #include <errno.h>
 #include <unistd.h>
 
 
-#include "stm32g4xx_ll_bus.h"
-#include "stm32g4xx_ll_pwr.h"
-#include "stm32g4xx_ll_rcc.h"
-#include "stm32g4xx_ll_system.h"
+#include <stm32g4xx_ll_bus.h>
+#include <stm32g4xx_ll_pwr.h>
+#include <stm32g4xx_ll_rcc.h>
+#include <stm32g4xx_ll_system.h>
 
 void USART2_start_tx(void);
 
